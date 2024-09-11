@@ -1,18 +1,12 @@
--- Création de la table roomType
-CREATE TABLE roomType (
-                          roomTypeId SERIAL PRIMARY KEY,
-                          category VARCHAR(50) NOT NULL,
-                          price DECIMAL(10, 2) NOT NULL,
-                          roomNumbers INT NOT NULL,
-                          Tarif DECIMAL(10, 2),
-                          roomSize INT
-);
-
--- Création de la table room
 CREATE TABLE room (
                       roomID SERIAL PRIMARY KEY,
-                      roomTypeId INT NOT NULL,
-                      FOREIGN KEY (roomTypeId) REFERENCES roomType(roomTypeId) ON DELETE CASCADE
+                      category VARCHAR(50) NOT NULL,
+                      price DECIMAL(10, 2) NOT NULL,
+                      roomNumbers INT NOT NULL,
+                      Tarif DECIMAL(10, 2),
+                      roomSize INT,
+                      hotelId INT NOT NULL,
+                      FOREIGN KEY (hotelId) REFERENCES hotel(hotelId) ON DELETE CASCADE
 );
 
 -- Création de la table hotel
