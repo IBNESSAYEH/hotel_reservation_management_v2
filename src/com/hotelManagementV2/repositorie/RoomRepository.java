@@ -1,9 +1,11 @@
 package com.hotelManagementV2.repositorie;
 
 import com.hotelManagementV2.model.Room;
+import com.hotelManagementV2.model.RoomType;
 import com.hotelManagementV2.util.DBConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +27,10 @@ public class RoomRepository {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
+                RoomType roomType = RoomType.valueOf(rs.getObject("category").toString());
                 Room room = new Room(
                         rs.getInt("roomID"),
-                        rs.getString("category"),
+                        roomType,
                         rs.getDouble("price"),
                         rs.getInt("roomNumbers"),
                         rs.getDouble("Tarif"),
@@ -58,9 +61,10 @@ public class RoomRepository {
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next()) {
+                RoomType roomType = RoomType.valueOf(rs.getObject("category").toString());
                 Room room = new Room(
                         rs.getInt("roomID"),
-                        rs.getString("category"),
+                        roomType,
                         rs.getDouble("price"),
                         rs.getInt("roomNumbers"),
                         rs.getDouble("Tarif"),
@@ -88,7 +92,7 @@ public class RoomRepository {
         ResultSet generatedKeys = null;
         try {
             pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, room.getCategory());
+            pstmt.setObject(1, room.getCategory());
             pstmt.setDouble(2, room.getPrice());
             pstmt.setInt(3, room.getRoomNumbers());
             pstmt.setDouble(4, room.getTarif());
@@ -125,7 +129,7 @@ public class RoomRepository {
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, room.getCategory());
+            pstmt.setObject(1, room.getCategory());
             pstmt.setDouble(2, room.getPrice());
             pstmt.setInt(3, room.getRoomNumbers());
             pstmt.setDouble(4, room.getTarif());
@@ -166,8 +170,39 @@ public class RoomRepository {
         }
     }
 
-    public HashMap<String, Room> isAvailable(){
-        //
-        return null;
+
+
+    public int isAvailableRooms(LocalDate startDate, LocalDate endDate, String category) {
+        String Sql = "SELECT roomid FROM room WHERE category = ? AND roomId NOT IN " +
+                "(SELECT roomId FROM reservation WHERE  (startdate BETWEEN ? AND ? OR enddate BETWEEN ? AND ?))";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int roomid = 0;
+        try {
+            pstmt = connection.prepareStatement(Sql);
+            pstmt.setString(1, category);
+            pstmt.setDate(2, Date.valueOf(startDate));
+            pstmt.setDate(3, Date.valueOf(endDate));
+            pstmt.setDate(4, Date.valueOf(startDate));
+            pstmt.setDate(5, Date.valueOf(endDate));
+
+            // Use executeQuery() since this is a SELECT statement
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                roomid = rs.getInt("roomid");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return roomid;
     }
+
 }

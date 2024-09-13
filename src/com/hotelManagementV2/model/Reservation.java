@@ -2,34 +2,46 @@ package com.hotelManagementV2.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Reservation {
 
     private int reservationId;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int roomTypeId;
-    private BigDecimal refundAmount;
+    private int roomId;
+    private Double refundAmount;
     private boolean isCanceled;
     private int guestId;
     private int hotelId;
+    private double seasonPercentage;
 
     // Constructors
-    public Reservation() {}
 
-    public Reservation(int reservationId, LocalDate startDate, LocalDate endDate, int roomTypeId,
-                       BigDecimal refundAmount, boolean isCanceled, int guestId, int hotelId) {
-        this.reservationId = reservationId;
+
+    public Reservation( LocalDate startDate, LocalDate endDate, int roomId,
+                       Double refundAmount, boolean isCanceled,Double seasonPercentage, int guestId, int hotelId) {
+
         this.startDate = startDate;
         this.endDate = endDate;
-        this.roomTypeId = roomTypeId;
+        this.roomId = roomId;
         this.refundAmount = refundAmount;
         this.isCanceled = isCanceled;
         this.guestId = guestId;
         this.hotelId = hotelId;
+        this.seasonPercentage = seasonPercentage;
     }
 
     // Getters and Setters
+
+    public double getSeasonPercentage() {
+        return seasonPercentage;
+    }
+
+    public void setSeasonPercentage(double seasonPercentage) {
+        this.seasonPercentage = seasonPercentage;
+    }
+
     public int getReservationId() {
         return reservationId;
     }
@@ -54,19 +66,19 @@ public class Reservation {
         this.endDate = endDate;
     }
 
-    public int getRoomTypeId() {
-        return roomTypeId;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setRoomTypeId(int roomTypeId) {
-        this.roomTypeId = roomTypeId;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public BigDecimal getRefundAmount() {
+    public Double getRefundAmount() {
         return refundAmount;
     }
 
-    public void setRefundAmount(BigDecimal refundAmount) {
+    public void setRefundAmount(Double refundAmount) {
         this.refundAmount = refundAmount;
     }
 
@@ -101,7 +113,7 @@ public class Reservation {
                 "reservationId=" + reservationId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", roomTypeId=" + roomTypeId +
+                ", roomTypeId=" + roomId +
                 ", refundAmount=" + refundAmount +
                 ", isCanceled=" + isCanceled +
                 ", guestId=" + guestId +

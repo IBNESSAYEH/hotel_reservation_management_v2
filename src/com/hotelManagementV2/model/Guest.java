@@ -8,14 +8,13 @@ public class Guest {
     private String cin;
     private String email;
     private String phone;
-    private BigDecimal balance;
+    private Double balance;
 
-    public Guest(BigDecimal balance, String email, String cin, String fullName, int guestId, String phone) {
-        this.balance = balance;
+    public Guest( String fullName, String cin, String email, String phone, Double balence) {
+        this.balance = balence;
         this.email = email;
         this.cin = cin;
         this.fullName = fullName;
-        this.guestId = guestId;
         this.phone = phone;
     }
 
@@ -27,11 +26,11 @@ public class Guest {
         this.guestId = guestId;
     }
 
-    public BigDecimal getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

@@ -2,6 +2,7 @@ package com.hotelManagementV2.controller;
 
 
 import com.hotelManagementV2.model.Room;
+import com.hotelManagementV2.model.RoomType;
 import com.hotelManagementV2.service.RoomService;
 
 import java.util.List;
@@ -18,16 +19,16 @@ public class RoomController {
         try {
             List<Room> rooms = roomService.getAllRooms();
             for (Room room : rooms) {
-                System.out.println("Room ID: " + room.getRoomId() +
-                        ", Category: " + room.getCategory() +
-                        ", Price: " + room.getPrice() +
-                        ", Room Numbers: " + room.getRoomNumbers() +
+                System.out.println("Room ID: "  + room.getRoomId() +
+                        " Category: " +   room.getCategory() +
+                        ", Price: "  + room.getPrice() +
+                        ", Room Numbers: "+ room.getRoomNumbers() +
                         ", Tarif: " + room.getTarif() +
-                        ", Room Size: " + room.getRoomSize() +
+                        " Room Size: " + room.getRoomSize() +
                         ", Hotel ID: " + room.getHotelId());
             }
         } catch (Exception e) {
-            System.out.println("Error retrieving rooms: " + e.getMessage());
+            System.out.println("error : " + e.getMessage());
         }
     }
 
@@ -36,25 +37,26 @@ public class RoomController {
             Optional<Room> roomOpt = roomService.getRoomById(id);
             if (roomOpt.isPresent()) {
                 Room room = roomOpt.get();
-                System.out.println("Room ID: " + room.getRoomId() +
+                System.out.println("Room iD: " + room.getRoomId() +
                         ", Category: " + room.getCategory() +
-                        ", Price: " + room.getPrice() +
-                        ", Room Numbers: " + room.getRoomNumbers() +
-                        ", Tarif: " + room.getTarif() +
+                        " Price: " + room.getPrice() +
+                        ", room Numbers: " + room.getRoomNumbers() +
+                        ", tarif: " + room.getTarif() +
                         ", Room Size: " + room.getRoomSize() +
-                        ", Hotel ID: " + room.getHotelId());
+                        " hotel iD: " + room.getHotelId());
             } else {
-                System.out.println("Room not found with id: " + id);
+                System.out.println("Room not found with id: "+ id);
             }
         } catch (Exception e) {
-            System.out.println("Error retrieving room: " + e.getMessage());
+            System.out.println("Error retrieving room: "+ e.getMessage());
         }
     }
 
-    public void createRoom(int roomId, String category, Double price, int roomNumbers, Double tarif, Integer roomSize, Long hotelId) {
+    public void createRoom(int roomId, RoomType category, Double price, int roomNumbers, Double tarif, Integer roomSize, Long hotelId) {
         try {
-            roomService.createRoom(roomId, category, price, roomNumbers, tarif, roomSize, hotelId);
-            System.out.println("Room created successfully.");
+            Room room = new Room(roomId, category, price, roomNumbers, tarif, roomSize, hotelId);
+            roomService.createRoom(room);
+
         } catch (Exception e) {
             System.out.println("Error creating room: " + e.getMessage());
         }
@@ -63,16 +65,14 @@ public class RoomController {
     public void updateRoom(Room room) {
         try {
             roomService.updateRoom(room);
-            System.out.println("Room updated successfully.");
         } catch (Exception e) {
-            System.out.println("Error updating room: " + e.getMessage());
+            System.out.println("ErrorUpdating room: " + e.getMessage());
         }
     }
 
     public void deleteRoom(Long id) {
         try {
             roomService.deleteRoom(id);
-            System.out.println("Room deleted successfully.");
         } catch (Exception e) {
             System.out.println("Error deleting room: " + e.getMessage());
         }

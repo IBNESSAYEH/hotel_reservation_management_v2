@@ -3,14 +3,14 @@ package com.hotelManagementV2.model;
 public class Room {
 
     private int roomId;
-    private String category;
+    private RoomType category;
     private Double price;
     private int roomNumbers;
     private Double tarif;
     private Integer roomSize;
     private Long hotelId;
 
-    public Room(int roomId, String category, Double price, int roomNumbers, Double tarif, Integer roomSize, Long hotelId) {
+    public Room(int roomId, RoomType category, Double price, int roomNumbers, Double tarif, Integer roomSize, Long hotelId) {
         this.roomId = roomId;
         this.category = category;
         this.price = price;
@@ -28,11 +28,11 @@ public class Room {
         this.roomId = roomId;
     }
 
-    public String getCategory() {
+    public RoomType getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(RoomType category) {
         this.category = category;
     }
 
